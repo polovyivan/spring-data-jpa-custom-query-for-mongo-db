@@ -1,0 +1,12 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /spring-data-jpa-custom-query-for-mongo-db
+
+spring:
+  datasource:
+    initialization-mode: always
+  data:
+    mongodb:
+      uri: mongodb://customerUser:password@localhost:27017/customer?authSource=admin
+      database: customer
