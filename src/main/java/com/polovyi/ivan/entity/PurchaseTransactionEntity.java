@@ -4,22 +4,28 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Document("purchase_transaction")
 public class PurchaseTransactionEntity {
 
     private String id;
 
-    private String paymentType;
+    @Field(targetType = FieldType.DATE_TIME)
+    private LocalDateTime timestamp;
 
-    private BigDecimal amount;
+    @Field(name = "purchase_transaction_address")
+    private PurchaseTransactionAddressEntity purchaseTransactionAddress;
 
-    private LocalDate createdAt;
+    @Field(name = "purchase_payment_transaction")
+    private PurchasePaymentTransactionEntity purchasePaymentTransaction;
+
 }

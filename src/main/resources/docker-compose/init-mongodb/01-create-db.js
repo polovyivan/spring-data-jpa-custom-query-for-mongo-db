@@ -17,4 +17,4 @@ dbAdmin.auth({
 
 // Create DB and collection
 db = new Mongo().getDB("customer");
-db.createCollection("customer_transaction", { capped: false });
+db.createCollection("purchase_transaction", { capped: false });

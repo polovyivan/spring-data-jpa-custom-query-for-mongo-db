@@ -2,17 +2,17 @@ package com.polovyi.ivan.configuration;
 
 import com.github.javafaker.CreditCardType;
 import com.github.javafaker.Faker;
-import com.polovyi.ivan.entity.CustomerEntity;
+import com.polovyi.ivan.entity.PurchasePaymentTransactionEntity;
+import com.polovyi.ivan.entity.PurchaseTransactionAddressEntity;
 import com.polovyi.ivan.entity.PurchaseTransactionEntity;
-import com.polovyi.ivan.repository.CustomerRepository;
+import com.polovyi.ivan.repository.PurchaseTransactionRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -21,41 +21,34 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public record DataLoader(CustomerRepository customerRepository) {
+public record DataLoader(PurchaseTransactionRepository purchaseTransactionRepository) {
 
     @Bean
     private InitializingBean sendDatabase() {
         Faker faker = new Faker();
         return () -> {
-            customerRepository.saveAll(generateCustomerList(faker));
+            purchaseTransactionRepository.saveAll(generateCustomerList(faker));
         };
     }
 
-    private List<CustomerEntity> generateCustomerList(Faker faker) {
-        return IntStream.range(0, 100)
-                .mapToObj(i -> CustomerEntity.builder()
-                        .id(UUID.randomUUID().toString())
-                        .createdAt(
-                                LocalDate.now().minus(Period.ofDays((new Random().nextInt(365 * 10)))))
-                        .fullName(faker.name().fullName())
-                        .phoneNumber(faker.phoneNumber().cellPhone())
-                        .address(faker.address().fullAddress())
-                        .purchaseTransactions(generatePurchaseTransactionList(faker))
-                        .build())
-                .collect(toList());
-    }
-
-    private List<PurchaseTransactionEntity> generatePurchaseTransactionList(Faker faker) {
-        List<PurchaseTransactionEntity> purchaseTransactionEntityList = IntStream.range(0, new Random().nextInt(10))
+    private List<PurchaseTransactionEntity> generateCustomerList(Faker faker) {
+        return IntStream.range(0, 50)
                 .mapToObj(i -> PurchaseTransactionEntity.builder()
-                        .createdAt(
-                                LocalDate.now().minus(Period.ofDays((new Random().nextInt(365 * 10)))))
                         .id(UUID.randomUUID().toString())
-                        .amount(new BigDecimal(faker.commerce().price().replaceAll(",", ".")))
-                        .paymentType(List.of(CreditCardType.values())
-                                .get(new Random().nextInt(CreditCardType.values().length)).toString())
+                        .timestamp(LocalDateTime.now().minus(Period.ofDays((new Random().nextInt(365 * 10)))))
+                        .purchaseTransactionAddress(PurchaseTransactionAddressEntity.builder()
+                                .streetAddress(faker.address().streetAddress())
+                                .streetAddressNumber(faker.address().streetAddressNumber())
+                                .city(faker.address().city())
+                                .zipCode(faker.address().zipCode())
+                                .country(faker.address().country())
+                                .build())
+                        .purchasePaymentTransaction(PurchasePaymentTransactionEntity.builder()
+                                .amount(new BigDecimal(faker.commerce().price().replaceAll(",", ".")))
+                                .paymentType(List.of(CreditCardType.values())
+                                        .get(new Random().nextInt(CreditCardType.values().length)).toString())
+                                .build())
                         .build())
                 .collect(toList());
-        return purchaseTransactionEntityList;
     }
 }

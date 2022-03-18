@@ -6,27 +6,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseTransactionResponse {
+
     private String id;
 
-    private String paymentType;
+    private LocalDateTime timestamp;
 
-    private BigDecimal amount;
+    private PurchaseTransactionAddressResponse purchaseTransactionAddress;
 
-    private LocalDate createdAt;
+    private PurchasePaymentTransactionResponse purchasePaymentTransaction;
 
-    public static PurchaseTransactionResponse valueOf(PurchaseTransactionEntity purchaseTransaction) {
+    public static PurchaseTransactionResponse valueOf(PurchaseTransactionEntity entity) {
         return builder()
-                .id(purchaseTransaction.getId())
-                .paymentType(purchaseTransaction.getPaymentType())
-                .amount(purchaseTransaction.getAmount())
-                .createdAt(purchaseTransaction.getCreatedAt()).build();
+                .id(entity.getId())
+                .timestamp(entity.getTimestamp())
+                .purchaseTransactionAddress(
+                        PurchaseTransactionAddressResponse.valueOf(entity.getPurchaseTransactionAddress()))
+                .purchasePaymentTransaction(
+                        PurchasePaymentTransactionResponse.valueOf(entity.getPurchasePaymentTransaction()))
+                .build();
     }
 }
