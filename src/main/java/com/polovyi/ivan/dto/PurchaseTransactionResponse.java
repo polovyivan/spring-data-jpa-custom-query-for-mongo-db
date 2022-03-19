@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -22,7 +24,12 @@ public class PurchaseTransactionResponse {
 
     private PurchasePaymentTransactionResponse purchasePaymentTransaction;
 
+    private List<PurchaseProductResponse> purchaseProductEntities;
+
     public static PurchaseTransactionResponse valueOf(PurchaseTransactionEntity entity) {
+
+        List<PurchaseProductResponse> productResponses = entity.getPurchaseTransactionProducts().stream()
+                .map(PurchaseProductResponse::valueOf).collect(Collectors.toList());
         return builder()
                 .id(entity.getId())
                 .timestamp(entity.getTimestamp())
@@ -30,6 +37,7 @@ public class PurchaseTransactionResponse {
                         PurchaseTransactionAddressResponse.valueOf(entity.getPurchaseTransactionAddress()))
                 .purchasePaymentTransaction(
                         PurchasePaymentTransactionResponse.valueOf(entity.getPurchasePaymentTransaction()))
+                .purchaseProductEntities(productResponses)
                 .build();
     }
 }

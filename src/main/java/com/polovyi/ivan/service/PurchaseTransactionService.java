@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public record CustomerService(PurchaseTransactionRepository purchaseTransactionRepository) {
+public record PurchaseTransactionService(PurchaseTransactionRepository purchaseTransactionRepository) {
 
     public Page <PurchaseTransactionResponse> getAllCustomers(GetPurchaseTransactionDTO dto) {
         log.info("Getting all customers with filters {}...", dto);

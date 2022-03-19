@@ -3,6 +3,7 @@ package com.polovyi.ivan.configuration;
 import com.github.javafaker.CreditCardType;
 import com.github.javafaker.Faker;
 import com.polovyi.ivan.entity.PurchasePaymentTransactionEntity;
+import com.polovyi.ivan.entity.PurchaseProductEntity;
 import com.polovyi.ivan.entity.PurchaseTransactionAddressEntity;
 import com.polovyi.ivan.entity.PurchaseTransactionEntity;
 import com.polovyi.ivan.repository.PurchaseTransactionRepository;
@@ -33,21 +34,37 @@ public record DataLoader(PurchaseTransactionRepository purchaseTransactionReposi
 
     private List<PurchaseTransactionEntity> generateCustomerList(Faker faker) {
         return IntStream.range(0, 50)
-                .mapToObj(i -> PurchaseTransactionEntity.builder()
-                        .id(UUID.randomUUID().toString())
-                        .timestamp(LocalDateTime.now().minus(Period.ofDays((new Random().nextInt(365 * 10)))))
-                        .purchaseTransactionAddress(PurchaseTransactionAddressEntity.builder()
-                                .streetAddress(faker.address().streetAddress())
-                                .streetAddressNumber(faker.address().streetAddressNumber())
-                                .city(faker.address().city())
-                                .zipCode(faker.address().zipCode())
-                                .country(faker.address().country())
-                                .build())
-                        .purchasePaymentTransaction(PurchasePaymentTransactionEntity.builder()
-                                .amount(new BigDecimal(faker.commerce().price().replaceAll(",", ".")))
-                                .paymentType(List.of(CreditCardType.values())
-                                        .get(new Random().nextInt(CreditCardType.values().length)).toString())
-                                .build())
+                .mapToObj(i -> {
+                    List<PurchaseProductEntity> purchaseProductEntities = generatePurchaseProductList(faker);
+                    BigDecimal totalAmount = purchaseProductEntities.stream().map(PurchaseProductEntity::getPrice)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                    return PurchaseTransactionEntity.builder()
+                            .id(UUID.randomUUID().toString())
+                            .timestamp(LocalDateTime.now().minus(Period.ofDays((new Random().nextInt(365 * 10)))))
+                            .purchaseTransactionAddress(PurchaseTransactionAddressEntity.builder()
+                                    .streetAddress(faker.address().streetAddress())
+                                    .streetAddressNumber(faker.address().streetAddressNumber())
+                                    .city(faker.address().city())
+                                    .zipCode(faker.address().zipCode())
+                                    .country(faker.address().country())
+                                    .build())
+                            .purchasePaymentTransaction(PurchasePaymentTransactionEntity.builder()
+                                    .amount(totalAmount)
+                                    .paymentType(List.of(CreditCardType.values())
+                                            .get(new Random().nextInt(CreditCardType.values().length)).toString())
+                                    .build())
+                            .purchaseTransactionProducts(purchaseProductEntities)
+                            .build();
+
+                })
+                .collect(toList());
+    }
+
+    private List<PurchaseProductEntity> generatePurchaseProductList(Faker faker) {
+        return IntStream.range(0, new Random().nextInt(4 - 1 + 1) + 1)
+                .mapToObj(i -> PurchaseProductEntity.builder()
+                        .name(faker.commerce().productName())
+                        .price(new BigDecimal(faker.commerce().price().replaceAll(",", ".")))
                         .build())
                 .collect(toList());
     }

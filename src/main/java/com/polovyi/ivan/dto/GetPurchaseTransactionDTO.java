@@ -24,6 +24,8 @@ public class GetPurchaseTransactionDTO {
 
     private String country;
 
+    private String product;
+
     private Set<String> paymentType;
 
     private BigDecimal minAmount;

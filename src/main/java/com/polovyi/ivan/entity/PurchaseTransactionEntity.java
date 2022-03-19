@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -27,5 +28,8 @@ public class PurchaseTransactionEntity {
 
     @Field(name = "purchase_payment_transaction")
     private PurchasePaymentTransactionEntity purchasePaymentTransaction;
+
+    @Field(name = "purchase_transaction_products")
+    private List<PurchaseProductEntity> purchaseTransactionProducts;
 
 }
