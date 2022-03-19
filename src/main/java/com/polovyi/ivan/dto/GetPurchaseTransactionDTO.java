@@ -18,9 +18,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class GetPurchaseTransactionDTO {
 
-    private LocalDate fromDate;
+    private LocalDate before;
 
-    private LocalDate toDate;
+    private LocalDate after;
 
     private String country;
 
@@ -30,14 +30,18 @@ public class GetPurchaseTransactionDTO {
 
     private BigDecimal maxAmount;
 
-    public LocalDateTime getFromDateTime() {
-        return Optional.ofNullable(this.fromDate)
+    private int page;
+
+    private int size;
+
+    public LocalDateTime getAfterDateTime() {
+        return Optional.ofNullable(this.before)
                 .map(toDate -> toDate.atTime(LocalTime.MIN))
                 .orElse(null);
     }
 
-    public LocalDateTime getToDateTime() {
-        return Optional.ofNullable(this.toDate)
+    public LocalDateTime getBeforeDateTime() {
+        return Optional.ofNullable(this.after)
                 .map(toDate -> toDate.atTime(LocalTime.MAX))
                 .orElse(null);
     }
