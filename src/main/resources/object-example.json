@@ -1,0 +1,15 @@
+{
+  "id": "7dda0af5-f5c1-4598-9a3e-6c32c7e78eb5",
+  "timestamp": "2012-05-12T21:57:40.869",
+  "purchaseTransactionAddress": {
+    "streetAddress": "Glibka street",
+    "streetAddressNumber": "1 a",
+    "city": "Uman",
+    "zipCode": "20301",
+    "country": "Ukraine"
+  },
+  "purchasePaymentTransaction": {
+    "paymentType": "VISA",
+    "amount": 58.06
+  }
+}
