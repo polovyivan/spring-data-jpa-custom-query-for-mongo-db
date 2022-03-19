@@ -27,7 +27,8 @@ public record CustomerService(PurchaseTransactionRepository purchaseTransactionR
         Page<PurchaseTransactionEntity> purchaseTransactionEntities = purchaseTransactionRepository.findAllWithFilters(dto, page);
 
         List<PurchaseTransactionResponse> purchaseTransactionResponses = purchaseTransactionEntities.stream()
-                .map(PurchaseTransactionResponse::valueOf).collect(Collectors.toList());
+                .map(PurchaseTransactionResponse::valueOf)
+                .collect(Collectors.toList());
         return PageableExecutionUtils.getPage(purchaseTransactionResponses, page, purchaseTransactionEntities::getTotalElements);
     }
 }
