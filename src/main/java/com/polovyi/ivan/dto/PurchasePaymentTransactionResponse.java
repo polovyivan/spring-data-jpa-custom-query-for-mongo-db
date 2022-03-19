@@ -1,6 +1,6 @@
 package com.polovyi.ivan.dto;
 
-import com.polovyi.ivan.entity.PurchasePaymentTransactionEntity;
+import com.polovyi.ivan.entity.PurchasePaymentEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class PurchasePaymentTransactionResponse {
     private BigDecimal amount;
 
 
-    public static PurchasePaymentTransactionResponse valueOf(PurchasePaymentTransactionEntity entity){
+    public static PurchasePaymentTransactionResponse valueOf(PurchasePaymentEntity entity){
         return builder()
                 .paymentType(entity.getPaymentType())
                 .amount(entity.getAmount())

@@ -11,6 +11,7 @@ spring:
       uri: mongodb://customerUser:password@localhost:27017/customer?authSource=admin
       database: customer
 
+# Used for test, it logs queries
 logging:
   level:
     org:

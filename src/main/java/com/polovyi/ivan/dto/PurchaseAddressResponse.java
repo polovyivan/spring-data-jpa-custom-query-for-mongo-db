@@ -1,6 +1,6 @@
 package com.polovyi.ivan.dto;
 
-import com.polovyi.ivan.entity.PurchaseTransactionAddressEntity;
+import com.polovyi.ivan.entity.PurchaseAddressEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseTransactionAddressResponse {
+public class PurchaseAddressResponse {
     private String streetAddress;
 
     private String streetAddressNumber;
@@ -21,7 +21,7 @@ public class PurchaseTransactionAddressResponse {
 
     private String country;
 
-    public static PurchaseTransactionAddressResponse valueOf(PurchaseTransactionAddressEntity entity){
+    public static PurchaseAddressResponse valueOf(PurchaseAddressEntity entity){
         return builder()
                 .streetAddress(entity.getStreetAddress())
                 .streetAddressNumber(entity.getStreetAddressNumber())

@@ -14,7 +14,7 @@ import static org.springframework.data.mongodb.core.mapping.FieldType.DECIMAL128
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchasePaymentTransactionEntity {
+public class PurchasePaymentEntity {
 
     @Field(name = "payment_type")
     private String paymentType;

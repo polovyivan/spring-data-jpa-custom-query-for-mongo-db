@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseTransactionAddressEntity {
+public class PurchaseAddressEntity {
 
     @Field(name = "street_address")
     private String streetAddress;

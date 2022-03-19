@@ -20,24 +20,24 @@ public class PurchaseTransactionResponse {
 
     private LocalDateTime timestamp;
 
-    private PurchaseTransactionAddressResponse purchaseTransactionAddress;
+    private PurchaseAddressResponse address;
 
-    private PurchasePaymentTransactionResponse purchasePaymentTransaction;
+    private PurchasePaymentTransactionResponse payment;
 
-    private List<PurchaseProductResponse> purchaseProductEntities;
+    private List<PurchaseProductResponse> products;
 
     public static PurchaseTransactionResponse valueOf(PurchaseTransactionEntity entity) {
 
-        List<PurchaseProductResponse> productResponses = entity.getPurchaseTransactionProducts().stream()
+        List<PurchaseProductResponse> productResponses = entity.getPurchaseProducts().stream()
                 .map(PurchaseProductResponse::valueOf).collect(Collectors.toList());
         return builder()
                 .id(entity.getId())
                 .timestamp(entity.getTimestamp())
-                .purchaseTransactionAddress(
-                        PurchaseTransactionAddressResponse.valueOf(entity.getPurchaseTransactionAddress()))
-                .purchasePaymentTransaction(
-                        PurchasePaymentTransactionResponse.valueOf(entity.getPurchasePaymentTransaction()))
-                .purchaseProductEntities(productResponses)
+                .address(
+                        PurchaseAddressResponse.valueOf(entity.getPurchaseAddress()))
+                .payment(
+                        PurchasePaymentTransactionResponse.valueOf(entity.getPurchasePayment()))
+                .products(productResponses)
                 .build();
     }
 }

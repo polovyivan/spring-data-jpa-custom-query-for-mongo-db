@@ -23,13 +23,13 @@ public class PurchaseTransactionEntity {
     @Field(targetType = FieldType.DATE_TIME)
     private LocalDateTime timestamp;
 
-    @Field(name = "purchase_transaction_address")
-    private PurchaseTransactionAddressEntity purchaseTransactionAddress;
+    @Field(name = "purchase_address")
+    private PurchaseAddressEntity purchaseAddress;
 
-    @Field(name = "purchase_payment_transaction")
-    private PurchasePaymentTransactionEntity purchasePaymentTransaction;
+    @Field(name = "purchase_payment")
+    private PurchasePaymentEntity purchasePayment;
 
-    @Field(name = "purchase_transaction_products")
-    private List<PurchaseProductEntity> purchaseTransactionProducts;
+    @Field(name = "purchase_products")
+    private List<PurchaseProductEntity> purchaseProducts;
 
 }

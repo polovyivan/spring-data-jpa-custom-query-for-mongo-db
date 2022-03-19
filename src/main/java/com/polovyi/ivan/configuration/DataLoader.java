@@ -2,9 +2,9 @@ package com.polovyi.ivan.configuration;
 
 import com.github.javafaker.CreditCardType;
 import com.github.javafaker.Faker;
-import com.polovyi.ivan.entity.PurchasePaymentTransactionEntity;
+import com.polovyi.ivan.entity.PurchasePaymentEntity;
 import com.polovyi.ivan.entity.PurchaseProductEntity;
-import com.polovyi.ivan.entity.PurchaseTransactionAddressEntity;
+import com.polovyi.ivan.entity.PurchaseAddressEntity;
 import com.polovyi.ivan.entity.PurchaseTransactionEntity;
 import com.polovyi.ivan.repository.PurchaseTransactionRepository;
 import org.springframework.beans.factory.InitializingBean;
@@ -41,19 +41,19 @@ public record DataLoader(PurchaseTransactionRepository purchaseTransactionReposi
                     return PurchaseTransactionEntity.builder()
                             .id(UUID.randomUUID().toString())
                             .timestamp(LocalDateTime.now().minus(Period.ofDays((new Random().nextInt(365 * 10)))))
-                            .purchaseTransactionAddress(PurchaseTransactionAddressEntity.builder()
+                            .purchaseAddress(PurchaseAddressEntity.builder()
                                     .streetAddress(faker.address().streetAddress())
                                     .streetAddressNumber(faker.address().streetAddressNumber())
                                     .city(faker.address().city())
                                     .zipCode(faker.address().zipCode())
                                     .country(faker.address().country())
                                     .build())
-                            .purchasePaymentTransaction(PurchasePaymentTransactionEntity.builder()
+                            .purchasePayment(PurchasePaymentEntity.builder()
                                     .amount(totalAmount)
                                     .paymentType(List.of(CreditCardType.values())
                                             .get(new Random().nextInt(CreditCardType.values().length)).toString())
                                     .build())
-                            .purchaseTransactionProducts(purchaseProductEntities)
+                            .purchaseProducts(purchaseProductEntities)
                             .build();
 
                 })
