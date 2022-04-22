@@ -37,13 +37,13 @@ public class GetPurchaseTransactionDTO {
     private int size;
 
     public LocalDateTime getAfterDateTime() {
-        return Optional.ofNullable(this.before)
+        return Optional.ofNullable(this.after)
                 .map(toDate -> toDate.atTime(LocalTime.MIN))
                 .orElse(null);
     }
 
     public LocalDateTime getBeforeDateTime() {
-        return Optional.ofNullable(this.after)
+        return Optional.ofNullable(this.before)
                 .map(toDate -> toDate.atTime(LocalTime.MAX))
                 .orElse(null);
     }
